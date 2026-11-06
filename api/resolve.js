@@ -17,15 +17,15 @@ module.exports = async (req, res) => {
         const page = await browser.newPage();
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
         
-        await page.goto(sflUrl, { waitUntil: 'networkidle2', timeout: 30000 });
-        await new Promise(r => setTimeout(r, 6000));
+        await page.goto(sflUrl, { waitUntil: 'domcontentloaded', timeout: 8000 });
+        await new Promise(r => setTimeout(r, 2000));
 
         const buttons = await page.$$('button, a');
         for (let btn of buttons) {
             const text = await page.evaluate(el => el.innerText, btn);
             if (text && (text.toLowerCase().includes('lanjut') || text.toLowerCase().includes('continue') || text.toLowerCase().includes('skip') || text.toLowerCase().includes('download'))) {
                 await btn.click();
-                await new Promise(r => setTimeout(r, 4000));
+                await new Promise(r => setTimeout(r, 1500));
                 break;
             }
         }
